@@ -1,15 +1,15 @@
 const questions = [
   {
-     question: "What is the capital of France?",
-      options: ["Berlin","Madrid", "Paris", "Rome"],    
-      answer: 2
-    },
-    {
-       question: "Which planet is closest to the Sun?",
-      options: ["Venus","Mercury", "Earth", "Mars"],   
-      answer: 1
-    }
-]
+    question: "What is the capital of France?",
+    options: ["Berlin", "Madrid", "Paris", "Rome"],
+    answer: 2,
+  },
+  {
+    question: "Which planet is closest to the Sun?",
+    options: ["Venus", "Mercury", "Earth", "Mars"],
+    answer: 1,
+  },
+];
 
 let currentQuestion = 0;
 let score = 0;
@@ -27,8 +27,35 @@ function showQuestion() {
   current.options.forEach((optionText, index) => {
     const btn = document.createElement("button");
     btn.textContent = optionText;
+    btn.addEventListener("click", () => {
+      checkAnswer(index);
+    });
     optionsContainer.appendChild(btn);
-})
+  });
 }
 
-showQuestion()
+showQuestion();
+
+function checkAnswer(index) {
+  if (index == questions[currentQuestion].answer) {
+    score = score + 1;
+  }
+  currentQuestion = currentQuestion + 1;
+
+ if (currentQuestion < questions.length) {
+  showQuestion();
+} else {
+  resultElement.textContent = "You got " + score + " out of " + questions.length;
+  resultElement.style.display = "block";
+  restartBtn.textContent = "restart";
+  restartBtn.style.display = "block"
+}
+}
+
+restartBtn.addEventListener("click", () => {
+  currentQuestion = 0;
+  score = 0;
+  restartBtn.style.display = "none";
+  resultElement.style.display = "none";
+  showQuestion()
+})
